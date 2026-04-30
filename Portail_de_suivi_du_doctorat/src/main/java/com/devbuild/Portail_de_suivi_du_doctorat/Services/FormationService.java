@@ -16,4 +16,6 @@ public interface FormationService {
     FormationDoctorate valider(Long formationId);
 
     int getTotalHeuresValidees(Long doctorantId);
+
+    List<FormationDoctorate> findNonValidees();
 }

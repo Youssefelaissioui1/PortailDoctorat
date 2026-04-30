@@ -13,6 +13,9 @@
         <module name="Portail_de_suivi_du_doctorat" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="PortailDoctorat" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

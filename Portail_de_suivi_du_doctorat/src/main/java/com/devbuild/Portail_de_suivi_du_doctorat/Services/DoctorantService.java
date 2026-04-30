@@ -30,7 +30,7 @@ public interface DoctorantService {
     boolean verifierPrerequis(Long doctorantId);
 
     /** Vérifie si le doctorant peut se réinscrire (règle des 3 / 6 ans) */
-    boolean peutSeReinscrire(Long doctorantId);
+     boolean peutSeReinscrire(Long doctorantId);
 
     /** Retourne les doctorants dépassant la durée standard (alerte) */
     List<Doctorant> findDoctorantsEnAlerte();

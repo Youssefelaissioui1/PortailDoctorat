@@ -58,4 +58,10 @@ public class FormationServiceImpl implements FormationService {
     public int getTotalHeuresValidees(Long doctorantId) {
         return formationRepository.sumHeuresValidees(doctorantId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FormationDoctorate> findNonValidees() {
+        return formationRepository.findByValidee(false);
+    }
 }

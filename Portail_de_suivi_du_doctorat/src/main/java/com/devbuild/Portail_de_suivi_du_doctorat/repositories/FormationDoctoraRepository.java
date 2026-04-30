@@ -18,4 +18,5 @@ public interface FormationDoctoraRepository extends JpaRepository<FormationDocto
     @Query("SELECT COALESCE(SUM(f.heures), 0) FROM FormationDoctorate f " +
             "WHERE f.doctorant.id = :doctorantId AND f.validee = true")
     int sumHeuresValidees(@Param("doctorantId") Long doctorantId);
-}
+
+    List<FormationDoctorate> findByValidee(boolean validee);}
