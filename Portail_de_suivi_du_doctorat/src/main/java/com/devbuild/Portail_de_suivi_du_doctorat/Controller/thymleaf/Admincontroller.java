@@ -1,4 +1,4 @@
-package com.devbuild.Portail_de_suivi_du_doctorat.Controller;
+package com.devbuild.Portail_de_suivi_du_doctorat.Controller.thymleaf;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.DoctorantService;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.FormationService;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.InscriptionService;
@@ -15,59 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- * Tableau de bord global de l'administration.
- *
- * ══════════════════════════════════════════════════════════
- * MÉTHODES DE SERVICE COUVERTES (toutes celles restantes)
- * ══════════════════════════════════════════════════════════
- * DoctorantService :
- *   ✔ findAll()                    → liste complète des doctorants
- *   ✔ findById(id)                 → fiche d'un doctorant
- *   ✔ findByStatut(statut)         → filtrer par statut
- *   ✔ findByDirecteurId(id)        → doctorants d'un directeur
- *   ✔ findDoctorantsEnAlerte()     → doctorants proches de 6 ans
- *   ✔ changerStatut(id, statut)    → changer le statut (dérogation, diplômé...)
- *   ✔ supprimerLogique(id)         → désactiver un compte
- *   (findByEmail, findByCne, creer, modifier, verifierPrerequis,
- *    peutSeReinscrire → couverts dans AuthController et DoctorantController)
- *
- * InscriptionService :
- *   ✔ countByStatut()              → stats dashboard
- *   (les autres méthodes sont dans InscriptionController)
- *
- * SoutenanceService :
- *   ✔ countByStatut()              → stats dashboard
- *   ✔ findByDoctorantId()          → soutenance d'un doctorant dans sa fiche
- *   (les autres méthodes sont dans SoutenanceController)
- *
- * PublicationService :
- *   ✔ findByDoctorantId()          → publications dans la fiche doctorant
- *   ✔ countArticlesQ1Q2Valides()   → dans la fiche doctorant
- *   ✔ countConferencesValidees()   → dans la fiche doctorant
- *
- * FormationService :
- *   ✔ findByDoctorantId()          → formations dans la fiche doctorant
- *   ✔ getTotalHeuresValidees()     → dans la fiche doctorant
- *
- * ══════════════════════════════════════════════════════════
- * ROUTES
- * ══════════════════════════════════════════════════════════
- *   GET  /admin/dashboard                           → vue d'ensemble + alertes
- *   GET  /admin/doctorants                          → liste complète
- *   GET  /admin/doctorants/par-statut/{statut}      → filtrer par statut
- *   GET  /admin/doctorants/directeur/{directeurId}  → doctorants d'un directeur
- *   GET  /admin/doctorants/alertes                  → doctorants en alerte 6 ans
- *   GET  /admin/doctorants/{id}                     → fiche complète
- *   POST /admin/doctorants/{id}/statut              → changer le statut
- *   POST /admin/doctorants/{id}/supprimer           → désactivation logique
- *
- * Vues :
- *   templates/admin/dashboard.html
- *   templates/admin/doctorants.html
- *   templates/admin/doctorant-detail.html
- *   templates/admin/alertes.html
- */
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('PERSONNEL_ADMIN')")
@@ -83,7 +30,7 @@ public class Admincontroller {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
 
-        // ── Doctorants ────────────────────────────────────────────────────────
+        //Doctorants
         model.addAttribute("doctorantsEnAlerte",
                 doctorantService.findDoctorantsEnAlerte());                 // findDoctorantsEnAlerte()
         model.addAttribute("nbDoctorantsActifs",
@@ -93,7 +40,7 @@ public class Admincontroller {
         model.addAttribute("nbDoctorantsDiplomes",
                 doctorantService.findByStatut(StatutDoctorant.DIPLOME).size());
 
-        // ── Inscriptions ──────────────────────────────────────────────────────
+        //Inscriptions
         model.addAttribute("nbInscriptionsAttenteDirecteur",
                 inscriptionService.countByStatut(StatutDossier.EN_VALIDATION_DIRECTEUR)); // countByStatut()
         model.addAttribute("nbInscriptionsAttenteAdmin",
@@ -103,7 +50,7 @@ public class Admincontroller {
         model.addAttribute("nbInscriptionsRejetees",
                 inscriptionService.countByStatut(StatutDossier.REJETE));
 
-        // ── Soutenances ───────────────────────────────────────────────────────
+        //Soutenances
         model.addAttribute("nbSoutenancesSoumises",
                 soutenanceService.countByStatut(StatutSoutenance.SOUMISE));   // countByStatut()
         model.addAttribute("nbSoutenancesRapports",

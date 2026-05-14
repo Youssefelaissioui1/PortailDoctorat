@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Tableau de bord — Portail Doctorat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+    <style>
+        :root{--primary:#1a56db;--primary-dk:#1035a2;--accent:#0ea5e9;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--sidebar-w:240px;}
+        *{box-sizing:border-box;}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;}
+        h1,h2,h3,h4,h5,.brand{font-family:'Sora',sans-serif;}
+        .topbar{position:fixed;top:0;left:0;right:0;z-index:1040;height:58px;background:var(--primary);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:0 1px 8px rgba(0,0,0,.18);}
+        .topbar .brand{font-family:'Sora',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;text-decoration:none;}
+        .topbar .brand span{color:#93c5fd;}
+        .user-pill{background:rgba(255,255,255,.15);border-radius:999px;color:#fff;font-size:.85rem;padding:.3rem .85rem;display:flex;align-items:center;gap:.5rem;}
+        .btn-logout{background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:8px;padding:.3rem .75rem;font-size:.82rem;cursor:pointer;}
+        .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:1rem 0;z-index:1030;}
+        .nav-section{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.6rem 1.2rem .25rem;}
+        .sidebar a.nav-link{display:flex;align-items:center;gap:.65rem;padding:.52rem 1.2rem;color:var(--text);font-size:.88rem;text-decoration:none;transition:background .15s;}
+        .sidebar a.nav-link i{font-size:1rem;color:var(--muted);}
+        .sidebar a.nav-link:hover{background:#eff6ff;color:var(--primary);}
+        .sidebar a.nav-link.active{background:#dbeafe;color:var(--primary);font-weight:600;border-left:3px solid var(--primary);}
+        .sidebar a.nav-link.active i{color:var(--primary);}
+        .main-content{margin-left:var(--sidebar-w);margin-top:58px;padding:2rem;}
+        .card{border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+        .stat-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+        .stat-card .icon-box{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+        .stat-card .stat-value{font-size:1.6rem;font-weight:700;font-family:'Sora',sans-serif;line-height:1;}
+        .stat-card .stat-label{font-size:.78rem;color:var(--muted);margin-top:.2rem;}
+        .progress{height:8px;border-radius:999px;background:var(--border);}
+        .progress-bar{border-radius:999px;}
+        .prog-wrap{margin-bottom:.9rem;}
+        .prog-label{display:flex;justify-content:space-between;font-size:.83rem;margin-bottom:.3rem;}
+        .alert{border-radius:10px;border:none;font-size:.88rem;}
+        .page-header{margin-bottom:1.75rem;}
+        .page-header h1{font-size:1.45rem;font-weight:700;margin:0;}
+        .page-header p{color:var(--muted);margin:.25rem 0 0;font-size:.9rem;}
+        .badge-annee{display:inline-block;background:#eff6ff;color:var(--primary);border-radius:999px;padding:.25rem .75rem;font-size:.82rem;font-weight:600;}
+    </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+    <a href="/" class="brand"><i class="bi bi-mortarboard-fill me-2"></i>Portail<span>Doctorat</span></a>
+    <div class="ms-auto d-flex align-items-center gap-2">
+        <span class="user-pill"><i class="bi bi-person-circle"></i>
+            <span th:text="${doctorant.nomComplet}">Utilisateur</span>
+        </span>
+        <form th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Quitter</button>
+        </form>
+    </div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="nav-section">Mon espace</div>
+    <a th:href="@{/doctorant/dashboard}" class="nav-link active"><i class="bi bi-speedometer2"></i> Tableau de bord</a>
+    <a th:href="@{/doctorant/profil}"    class="nav-link"><i class="bi bi-person"></i> Mon profil</a>
+    <a th:href="@{/doctorant/progression}" class="nav-link"><i class="bi bi-graph-up-arrow"></i> Progression</a>
+    <div class="nav-section">Dossiers</div>
+    <a th:href="@{/inscriptions}"  class="nav-link"><i class="bi bi-file-earmark-text"></i> Inscriptions</a>
+    <a th:href="@{/soutenance}"    class="nav-link"><i class="bi bi-award"></i> Soutenance</a>
+    <div class="nav-section">Activités</div>
+    <a th:href="@{/publications}"  class="nav-link"><i class="bi bi-journal-richtext"></i> Publications</a>
+    <a th:href="@{/formations}"    class="nav-link"><i class="bi bi-book"></i> Formations</a>
+</div>
+
+<!-- Main -->
+<div class="main-content">
+
+    <!-- Alertes urgentes -->
+    <div th:if="${alerteLimite6Ans}" class="alert alert-danger d-flex align-items-center gap-2 mb-3">
+        <i class="bi bi-exclamation-octagon-fill fs-5"></i>
+        <div><strong>Limite absolue atteinte !</strong> Votre doctorat dépasse 6 ans. Contactez l'administration immédiatement.</div>
+    </div>
+    <div th:if="${alerteAnneesDepasse and !alerteLimite6Ans}" class="alert alert-warning d-flex align-items-center gap-2 mb-3">
+        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+        <div><strong>Attention :</strong> Votre inscription initiale date de plus de 3 ans. Une dérogation du PED est requise pour vous réinscrire.</div>
+    </div>
+
+    <!-- En-tête -->
+    <div class="page-header d-flex align-items-start justify-content-between">
+        <div>
+            <h1>Bonjour, <span th:text="${doctorant.prenom}">Prénom</span> 👋</h1>
+            <p th:text="'Sujet : ' + ${doctorant.sujetThese}">Sujet de thèse</p>
+        </div>
+        <span class="badge-annee"><i class="bi bi-calendar3 me-1"></i>Année <span th:text="${doctorant.anneeEncours}">1</span></span>
+    </div>
+
+    <!-- Cartes statistiques -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dbeafe;color:#1a56db;"><i class="bi bi-journal-richtext"></i></div>
+                <div>
+                    <div class="stat-value" th:text="${articlesQ1Q2}">0</div>
+                    <div class="stat-label">Articles Q1/Q2 validés</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-mic"></i></div>
+                <div>
+                    <div class="stat-value" th:text="${conferences}">0</div>
+                    <div class="stat-label">Conférences validées</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#fef9c3;color:#d97706;"><i class="bi bi-clock"></i></div>
+                <div>
+                    <div class="stat-value" th:text="${heuresFormation}">0</div>
+                    <div class="stat-label">Heures de formation</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box"
+                     th:style="${prerequisOk} ? 'background:#dcfce7;color:#16a34a;' : 'background:#fee2e2;color:#dc2626;'">
+                    <i th:class="${prerequisOk} ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+                </div>
+                <div>
+                    <div class="stat-value" th:text="${prerequisOk} ? 'OK' : 'NON'">NON</div>
+                    <div class="stat-label">Prérequis soutenance</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <!-- Progression soutenance -->
+        <div class="col-md-7">
+            <div class="card h-100">
+                <div class="card-header p-3 d-flex align-items-center gap-2">
+                    <i class="bi bi-trophy text-warning"></i>
+                    <span>Progression vers la soutenance</span>
+                </div>
+                <div class="card-body p-3">
+                    <!-- Articles Q1/Q2 -->
+                    <div class="prog-wrap">
+                        <div class="prog-label">
+                            <span><i class="bi bi-journal-richtext me-1 text-primary"></i>Articles journaux Q1/Q2</span>
+                            <span th:text="${articlesQ1Q2} + ' / 2'" class="fw-600">0 / 2</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" th:style="'width:' + ${T(java.lang.Math).min(articlesQ1Q2 * 50, 100)} + '%'"></div>
+                        </div>
+                    </div>
+                    <!-- Conférences -->
+                    <div class="prog-wrap">
+                        <div class="prog-label">
+                            <span><i class="bi bi-mic me-1 text-success"></i>Conférences</span>
+                            <span th:text="${conferences} + ' / 2'" class="fw-600">0 / 2</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" th:style="'width:' + ${T(java.lang.Math).min(conferences * 50, 100)} + '%'"></div>
+                        </div>
+                    </div>
+                    <!-- Formations -->
+                    <div class="prog-wrap mb-0">
+                        <div class="prog-label">
+                            <span><i class="bi bi-clock me-1 text-warning"></i>Heures de formation</span>
+                            <span th:text="${heuresFormation} + ' / 200 h'" class="fw-600">0 / 200 h</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" th:style="'width:' + ${T(java.lang.Math).min(heuresFormation / 2.0, 100)} + '%'"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <div th:if="${prerequisOk}" class="alert alert-success py-2 mb-0">
+                            <i class="bi bi-check-circle-fill me-1"></i> Tous les prérequis sont remplis ! Vous pouvez demander votre soutenance.
+                        </div>
+                        <div th:unless="${prerequisOk}" class="alert alert-info py-2 mb-0">
+                            <i class="bi bi-info-circle me-1"></i> Continuez à compléter vos activités pour atteindre les seuils requis.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="col-md-5">
+            <div class="card h-100">
+                <div class="card-header p-3 d-flex align-items-center gap-2">
+                    <i class="bi bi-lightning-charge text-primary"></i>
+                    <span>Actions rapides</span>
+                </div>
+                <div class="card-body p-3 d-flex flex-column gap-2">
+                    <a th:href="@{/inscriptions/nouvelle}" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-plus"></i> Nouvelle inscription / réinscription
+                    </a>
+                    <a th:href="@{/publications/nouvelle}" class="btn btn-outline-success btn-sm d-flex align-items-center gap-2">
+                        <i class="bi bi-plus-circle"></i> Ajouter une publication
+                    </a>
+                    <a th:href="@{/formations/nouvelle}" class="btn btn-outline-warning btn-sm d-flex align-items-center gap-2">
+                        <i class="bi bi-plus-circle"></i> Déclarer une formation
+                    </a>
+                    <hr class="my-1"/>
+                    <a th:href="@{/soutenance}" class="btn btn-primary btn-sm d-flex align-items-center gap-2"
+                       th:classappend="${!prerequisOk} ? ' disabled'">
+                        <i class="bi bi-award"></i>
+                        <span th:text="${prerequisOk} ? 'Demander la soutenance' : 'Soutenance (prérequis manquants)'"></span>
+                    </a>
+                    <a th:href="@{/doctorant/progression}" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2">
+                        <i class="bi bi-graph-up-arrow"></i> Voir ma progression détaillée
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

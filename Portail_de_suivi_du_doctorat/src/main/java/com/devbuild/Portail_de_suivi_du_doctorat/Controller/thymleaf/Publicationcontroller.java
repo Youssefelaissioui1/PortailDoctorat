@@ -1,4 +1,4 @@
-package com.devbuild.Portail_de_suivi_du_doctorat.Controller;
+package com.devbuild.Portail_de_suivi_du_doctorat.Controller.thymleaf;
 
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.DoctorantService;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.PublicationService;

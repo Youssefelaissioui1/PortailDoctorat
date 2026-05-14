@@ -1,4 +1,4 @@
-package com.devbuild.Portail_de_suivi_du_doctorat.Controller;
+package com.devbuild.Portail_de_suivi_du_doctorat.Controller.thymleaf;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.CampagneInscriptionService;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.DoctorantService;
 import com.devbuild.Portail_de_suivi_du_doctorat.Services.InscriptionService;
@@ -7,7 +7,6 @@ import com.devbuild.Portail_de_suivi_du_doctorat.entities.Doctorant;
 import com.devbuild.Portail_de_suivi_du_doctorat.entities.Inscription;
 import com.devbuild.Portail_de_suivi_du_doctorat.enums.StatutDossier;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller

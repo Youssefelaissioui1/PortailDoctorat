@@ -2,6 +2,7 @@ package com.devbuild.Portail_de_suivi_du_doctorat.Services;
 
 
 import com.devbuild.Portail_de_suivi_du_doctorat.entities.Doctorant;
+import com.devbuild.Portail_de_suivi_du_doctorat.enums.RoleEnum;
 import com.devbuild.Portail_de_suivi_du_doctorat.enums.StatutDoctorant;
 import com.devbuild.Portail_de_suivi_du_doctorat.repositories.DoctorantRepository;
 import com.devbuild.Portail_de_suivi_du_doctorat.repositories.FormationDoctoraRepository;
@@ -49,6 +50,7 @@ public class DoctorantServiceImpl implements DoctorantService {
 //        if (doctorantRepository.existsByEmail(doctorant.getEmail())) {
 //            throw new IllegalArgumentException("Email déjà utilisé : " + doctorant.getEmail());
 //        }
+        doctorant.setRole(RoleEnum.DOCTORANT);
 //        doctorant.setMotDePasse(passwordEncoder.encode(doctorant.getMotDePasse()));
         if (doctorant.getDatePremiereInscription() == null) {
             doctorant.setDatePremiereInscription(LocalDate.now());

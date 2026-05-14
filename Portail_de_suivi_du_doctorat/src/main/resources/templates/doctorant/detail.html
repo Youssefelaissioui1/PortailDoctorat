@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<!-- ═══════════════════════════════════════════════════
+     templates/inscription/detail.html
+     Variables model : inscription (Inscription)
+═══════════════════════════════════════════════════ -->
+<head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Détail inscription — Portail Doctorat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+    <style>
+        :root{--primary:#1a56db;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--sidebar-w:240px;}
+        *{box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;}
+        h1,h2,h3,h4,h5{font-family:'Sora',sans-serif;}
+        .topbar{position:fixed;top:0;left:0;right:0;z-index:1040;height:58px;background:var(--primary);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:0 1px 8px rgba(0,0,0,.18);}
+        .topbar .brand{font-family:'Sora',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;text-decoration:none;}
+        .topbar .brand span{color:#93c5fd;}
+        .btn-logout{background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:8px;padding:.3rem .75rem;font-size:.82rem;cursor:pointer;}
+        .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:1rem 0;z-index:1030;}
+        .nav-section{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.6rem 1.2rem .25rem;}
+        .sidebar a.nav-link{display:flex;align-items:center;gap:.65rem;padding:.52rem 1.2rem;color:var(--text);font-size:.88rem;text-decoration:none;}
+        .sidebar a.nav-link:hover{background:#eff6ff;color:var(--primary);}
+        .sidebar a.nav-link.active{background:#dbeafe;color:var(--primary);font-weight:600;border-left:3px solid var(--primary);}
+        .main-content{margin-left:var(--sidebar-w);margin-top:58px;padding:2rem;}
+        .card{border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+        .card-header{background:var(--card);border-bottom:1px solid var(--border);font-family:'Sora',sans-serif;font-weight:600;}
+        .info-row{display:flex;gap:.5rem;padding:.65rem 0;border-bottom:1px solid var(--border);}
+        .info-row:last-child{border-bottom:none;}
+        .info-label{font-size:.8rem;color:var(--muted);min-width:160px;}
+        .info-value{font-size:.9rem;font-weight:500;}
+        .badge{font-size:.75rem;padding:.35em .75em;border-radius:999px;}
+        .timeline{position:relative;padding-left:1.5rem;}
+        .timeline::before{content:'';position:absolute;left:.4rem;top:0;bottom:0;width:2px;background:var(--border);}
+        .timeline-item{position:relative;margin-bottom:1.2rem;}
+        .timeline-item::before{content:'';position:absolute;left:-1.1rem;top:.35rem;width:10px;height:10px;border-radius:50%;background:var(--primary);border:2px solid #fff;box-shadow:0 0 0 2px var(--primary);}
+        .timeline-item .tl-date{font-size:.75rem;color:var(--muted);}
+        .timeline-item .tl-text{font-size:.88rem;}
+    </style>
+</head>
+<body>
+<div class="topbar">
+    <a href="/" class="brand"><i class="bi bi-mortarboard-fill me-2"></i>Portail<span>Doctorat</span></a>
+    <div class="ms-auto">
+        <form th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Quitter</button>
+        </form>
+    </div>
+</div>
+<div class="sidebar">
+    <div class="nav-section">Mon espace</div>
+    <a th:href="@{/doctorant/dashboard}" class="nav-link"><i class="bi bi-speedometer2"></i> Tableau de bord</a>
+    <div class="nav-section">Dossiers</div>
+    <a th:href="@{/inscriptions}" class="nav-link active"><i class="bi bi-file-earmark-text"></i> Inscriptions</a>
+    <a th:href="@{/soutenance}"   class="nav-link"><i class="bi bi-award"></i> Soutenance</a>
+    <div class="nav-section">Activités</div>
+    <a th:href="@{/publications}" class="nav-link"><i class="bi bi-journal-richtext"></i> Publications</a>
+    <a th:href="@{/formations}"   class="nav-link"><i class="bi bi-book"></i> Formations</a>
+</div>
+<div class="main-content">
+    <div class="mb-3">
+        <a href="/inscriptions" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+    </div>
+
+    <div class="row g-4">
+        <!-- Détails du dossier -->
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header p-3">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    Dossier n°<span th:text="${inscription.id}">1</span>
+                </div>
+                <div class="card-body p-4">
+                    <div class="info-row">
+                        <div class="info-label">Année universitaire</div>
+                        <div class="info-value" th:text="${inscription.anneeUniversitaire}">2025</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Type</div>
+                        <div class="info-value" th:text="${inscription.type}">REINSCRIPTION</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Date de dépôt</div>
+                        <div class="info-value" th:text="${#temporals.format(inscription.dateDepot,'dd MMMM yyyy','fr')}">—</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Statut</div>
+                        <div class="info-value">
+                            <span th:if="${inscription.statut.name() == 'VALIDE'}"       class="badge bg-success">✓ Validé</span>
+                            <span th:if="${inscription.statut.name() == 'REJETE'}"       class="badge bg-danger">✗ Rejeté</span>
+                            <span th:if="${inscription.statut.name() == 'SOUMIS'}"       class="badge bg-info text-dark">Soumis</span>
+                            <span th:if="${inscription.statut.name() == 'EN_VALIDATION_DIRECTEUR'}" class="badge bg-warning text-dark">Attente directeur</span>
+                            <span th:if="${inscription.statut.name() == 'EN_VALIDATION_ADMIN'}"     class="badge bg-primary">Attente admin</span>
+                        </div>
+                    </div>
+                    <div class="info-row" th:if="${inscription.motifRejet != null}">
+                        <div class="info-label">Motif de rejet</div>
+                        <div class="info-value text-danger" th:text="${inscription.motifRejet}">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline suivi -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header p-3"><i class="bi bi-clock-history me-2"></i>Suivi du dossier</div>
+                <div class="card-body p-4">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="tl-date" th:text="${#temporals.format(inscription.dateDepot,'dd/MM/yyyy')}">—</div>
+                            <div class="tl-text fw-600">Dossier soumis</div>
+                        </div>
+                        <div class="timeline-item" th:if="${inscription.avisDirecteur != null}">
+                            <div class="tl-date" th:text="${inscription.dateAvisDirecteur != null ? #temporals.format(inscription.dateAvisDirecteur,'dd/MM/yyyy') : ''}">—</div>
+                            <div class="tl-text fw-600">Avis directeur</div>
+                            <div class="tl-text text-muted" th:text="${inscription.avisDirecteur}">—</div>
+                        </div>
+                        <div class="timeline-item" th:if="${inscription.commentaireAdmin != null}">
+                            <div class="tl-date" th:text="${inscription.dateValidationAdmin != null ? #temporals.format(inscription.dateValidationAdmin,'dd/MM/yyyy') : ''}">—</div>
+                            <div class="tl-text fw-600">Décision administration</div>
+                            <div class="tl-text text-muted" th:text="${inscription.commentaireAdmin}">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -42,36 +42,34 @@ DELETE FROM utilisateurs;
 INSERT INTO utilisateurs (id, nom, prenom, email, mot_de_passe, role, actif, dtype) VALUES
 -- Personnel administratif
 (1,  'BENALI',    'Fatima',   'admin@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'PERSONNEL_ADMIN',   TRUE, 'ADMIN'),
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'PERSONNEL_ADMIN',   TRUE, 'ADMIN'),
 
 -- Directeurs de thèse
 (2,  'AHAIDOUS',  'Khadija',  'directeur@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'DIRECTEUR_THESE',   TRUE, 'DIRECTEUR'),
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'DIRECTEUR_THESE',   TRUE, 'DIRECTEUR'),
 
 (3,  'BERRADA',   'Mohamed',  'directeur2@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'DIRECTEUR_THESE',   TRUE, 'DIRECTEUR'),
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'DIRECTEUR_THESE',   TRUE, 'DIRECTEUR'),
 
 -- Doctorants
 (4,  'ALAOUI',    'Youssef',  'doctorant1@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'DOCTORANT',         TRUE, 'DOCTORANT'),
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'DOCTORANT',         TRUE, 'DOCTORANT'),
 
 (5,  'TAZI',      'Salma',    'doctorant2@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'DOCTORANT',         TRUE, 'DOCTORANT'),
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'DOCTORANT',         TRUE, 'DOCTORANT'),
 
 (6,  'OUALI',     'Hamza',    'doctorant3@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'DOCTORANT',         TRUE, 'DOCTORANT'),
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'DOCTORANT',         TRUE, 'DOCTORANT'),
 
 (7,  'MANSOURI',  'Nadia',    'doctorant4@doctorat.ma',
-     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.',
-     'DOCTORANT',         TRUE, 'DOCTORANT');
-
--- ─────────────────────────────────────────────────────────────
+ '$2a$10$IHiOHnn2RyjZEfZxb3dvWObW4Q79jvBP83Z7i9IN/giJ1kuFzV2yS',
+ 'DOCTORANT',         TRUE, 'DOCTORANT');
 -- 2. TABLE FILLE : personnel_admins
 -- ─────────────────────────────────────────────────────────────
 INSERT INTO personnel_admins (id, matricule, service, poste) VALUES

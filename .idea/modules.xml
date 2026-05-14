@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PortailDoctorat.iml" filepath="$PROJECT_DIR$/PortailDoctorat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Portail_de_suivi_du_doctorat/Portail_de_suivi_du_doctorat.iml" filepath="$PROJECT_DIR$/Portail_de_suivi_du_doctorat/Portail_de_suivi_du_doctorat.iml" />
+    </modules>
+  </component>
+</project>

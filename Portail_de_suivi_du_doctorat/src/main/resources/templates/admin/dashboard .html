@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Dashboard Admin — Portail Doctorat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+    <style>
+        :root{--primary:#1a56db;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--sidebar-w:250px;}
+        *{box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);margin:0;}
+        h1,h2,h3,h4,h5,.brand{font-family:'Sora',sans-serif;}
+        .topbar{position:fixed;top:0;left:0;right:0;z-index:1040;height:58px;background:var(--primary);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:0 1px 8px rgba(0,0,0,.18);}
+        .topbar .brand{font-weight:700;font-size:1.1rem;color:#fff;text-decoration:none;}.topbar .brand span{color:#93c5fd;}
+        .role-badge{background:rgba(255,255,255,.2);border-radius:999px;color:#fff;font-size:.78rem;padding:.2rem .75rem;}
+        .btn-logout{background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:8px;padding:.3rem .75rem;font-size:.82rem;cursor:pointer;}
+        .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:1rem 0;z-index:1030;}
+        .nav-section{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.6rem 1.2rem .25rem;}
+        .sidebar a.nav-link{display:flex;align-items:center;gap:.65rem;padding:.52rem 1.2rem;color:var(--text);font-size:.88rem;text-decoration:none;transition:background .15s;}
+        .sidebar a.nav-link i{font-size:1rem;color:var(--muted);}
+        .sidebar a.nav-link:hover{background:#eff6ff;color:var(--primary);}
+        .sidebar a.nav-link.active{background:#dbeafe;color:var(--primary);font-weight:600;border-left:3px solid var(--primary);}
+        .sidebar a.nav-link.active i{color:var(--primary);}
+        .main-content{margin-left:var(--sidebar-w);margin-top:58px;padding:2rem;}
+        .card{border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+        .card-header{background:var(--card);border-bottom:1px solid var(--border);font-family:'Sora',sans-serif;font-weight:600;}
+        .stat-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+        .stat-card .icon-box{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+        .stat-card .stat-value{font-size:1.7rem;font-weight:700;font-family:'Sora',sans-serif;line-height:1;}
+        .stat-card .stat-label{font-size:.78rem;color:var(--muted);margin-top:.15rem;}
+        .section-title{font-size:1rem;font-weight:700;font-family:'Sora',sans-serif;margin:1.75rem 0 1rem;}
+        .alert-row{border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;background:#fff;margin-bottom:.6rem;}
+        .alert-row:hover{background:#eff6ff;}
+        .badge{font-size:.75rem;padding:.35em .75em;border-radius:999px;}
+        .page-header{margin-bottom:1.75rem;}
+        .page-header h1{font-size:1.45rem;font-weight:700;margin:0;}
+        .page-header p{color:var(--muted);margin:.25rem 0 0;font-size:.9rem;}
+    </style>
+</head>
+<body>
+<div class="topbar">
+    <a href="/" class="brand"><i class="bi bi-mortarboard-fill me-2"></i>Portail<span>Doctorat</span></a>
+    <div class="ms-auto d-flex align-items-center gap-2">
+        <span class="role-badge"><i class="bi bi-shield-check me-1"></i>Administration</span>
+        <form th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Quitter</button>
+        </form>
+    </div>
+</div>
+<div class="sidebar">
+    <div class="nav-section">Administration</div>
+    <a th:href="@{/admin/dashboard}" class="nav-link active"><i class="bi bi-speedometer2"></i> Tableau de bord</a>
+    <a th:href="@{/admin/doctorants}" class="nav-link"><i class="bi bi-people"></i> Doctorants</a>
+    <a th:href="@{/admin/doctorants/alertes}" class="nav-link"><i class="bi bi-exclamation-triangle"></i> Alertes</a>
+    <div class="nav-section">Dossiers</div>
+    <a th:href="@{/admin/inscriptions}" class="nav-link"><i class="bi bi-file-earmark-text"></i> Inscriptions</a>
+    <a th:href="@{/admin/campagnes}"    class="nav-link"><i class="bi bi-calendar-range"></i> Campagnes</a>
+    <a th:href="@{/admin/soutenances}"  class="nav-link"><i class="bi bi-award"></i> Soutenances</a>
+    <div class="nav-section">Activités</div>
+    <a th:href="@{/admin/publications}" class="nav-link"><i class="bi bi-journal-richtext"></i> Publications</a>
+    <a th:href="@{/admin/formations}"   class="nav-link"><i class="bi bi-book"></i> Formations</a>
+</div>
+<div class="main-content">
+    <div class="page-header">
+        <h1>Tableau de bord</h1>
+        <p>Vue d'ensemble de l'activité du portail doctoral</p>
+    </div>
+
+    <!-- Doctorants -->
+    <div class="section-title"><i class="bi bi-people me-2 text-primary"></i>Doctorants</div>
+    <div class="row g-3 mb-2">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dbeafe;color:#1a56db;"><i class="bi bi-person-check"></i></div>
+                <div><div class="stat-value" th:text="${nbDoctorantsActifs}">0</div><div class="stat-label">Actifs</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#fef9c3;color:#d97706;"><i class="bi bi-person-exclamation"></i></div>
+                <div><div class="stat-value" th:text="${nbDoctorantsDerogation}">0</div><div class="stat-label">Dérogation</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-mortarboard"></i></div>
+                <div><div class="stat-value" th:text="${nbDoctorantsDiplomes}">0</div><div class="stat-label">Diplômés</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-bell"></i></div>
+                <div>
+                    <div class="stat-value" th:text="${doctorantsEnAlerte.size()}">0</div>
+                    <div class="stat-label">En alerte</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inscriptions -->
+    <div class="section-title"><i class="bi bi-file-earmark-text me-2 text-info"></i>Inscriptions</div>
+    <div class="row g-3 mb-2">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#fef9c3;color:#d97706;"><i class="bi bi-hourglass-split"></i></div>
+                <div><div class="stat-value" th:text="${nbInscriptionsAttenteDirecteur}">0</div><div class="stat-label">Attente directeur</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dbeafe;color:#1a56db;"><i class="bi bi-inbox"></i></div>
+                <div><div class="stat-value" th:text="${nbInscriptionsAttenteAdmin}">0</div><div class="stat-label">À traiter</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-check-circle"></i></div>
+                <div><div class="stat-value" th:text="${nbInscriptionsValidees}">0</div><div class="stat-label">Validées</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-x-circle"></i></div>
+                <div><div class="stat-value" th:text="${nbInscriptionsRejetees}">0</div><div class="stat-label">Rejetées</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Soutenances -->
+    <div class="section-title"><i class="bi bi-award me-2 text-warning"></i>Soutenances</div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#fef9c3;color:#d97706;"><i class="bi bi-send"></i></div>
+                <div><div class="stat-value" th:text="${nbSoutenancesSoumises}">0</div><div class="stat-label">Soumises</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#ede9fe;color:#7c3aed;"><i class="bi bi-file-earmark-check"></i></div>
+                <div><div class="stat-value" th:text="${nbSoutenancesRapports}">0</div><div class="stat-label">Rapports reçus</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-shield-check"></i></div>
+                <div><div class="stat-value" th:text="${nbSoutenancesAutorisees}">0</div><div class="stat-label">Autorisées</div></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="icon-box" style="background:#dbeafe;color:#1a56db;"><i class="bi bi-calendar-event"></i></div>
+                <div><div class="stat-value" th:text="${nbSoutenancesPlanifiees}">0</div><div class="stat-label">Planifiées</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctorants en alerte -->
+    <div th:unless="${#lists.isEmpty(doctorantsEnAlerte)}">
+        <div class="section-title"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Doctorants en alerte</div>
+        <div class="card">
+            <div class="card-body p-3">
+                <div th:each="doc : ${doctorantsEnAlerte}" class="alert-row">
+                    <i class="bi bi-person-fill text-danger"></i>
+                    <div class="flex-grow-1">
+                        <span class="fw-600" th:text="${doc.nomComplet}">—</span>
+                        <span class="text-muted ms-2" style="font-size:.82rem;" th:text="'Année ' + ${doc.anneeEncours}">—</span>
+                    </div>
+                    <a th:href="@{/admin/doctorants/{id}(id=${doc.id})}" class="btn btn-sm btn-outline-danger">Voir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
